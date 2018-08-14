@@ -14,3 +14,16 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::post('/sendMessage', [
+    'as'   => 'sendMessage',
+    'uses' => 'TelegramBotController@sendMessage'
+]);
+
+Route::post('/' . env('TELEGRAM_BOT_TOKEN') . '/webhook', function () {
+    $update = Telegram::getWebhookUpdates();
+    $chat_id = $update->getMessage()->getChat()->getId();
+    $text = $update->getMessage()->getText();
+
+    \Illuminate\Support\Facades\Log::info('AAAaa');
+});
