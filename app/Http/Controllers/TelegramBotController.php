@@ -9,20 +9,19 @@ class TelegramBotController extends Controller
 {
     public function sendMessage(Request $request)
     {
-        dd($request->all());
         $mess = view('telegram-message.new-request', [
             'name'  => $request->get('name'),
-            'email' => $request->get('email')
+            'email' => $request->get('email'),
+            'phone' => $request->get('phone'),
+            'message' => $request->get('message')
         ])->render();
   
         
-        $response = Telegram::sendMessage([
+        Telegram::sendMessage([
             'chat_id'    => env('TELEGRAM_CHAT_ID'),
             'text'       => $mess,
             'parse_mode' => 'HTML'
         ]);
 
-        $messageId = $response->getMessageId();
-        dd($messageId);
     }
 }
